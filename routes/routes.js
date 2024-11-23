@@ -42,10 +42,11 @@ router.get('/verify', VerifyUser, Auth)
 
 // software install request routes
 
-router.post('/add-request',VerifyUser ,createRequest) // this will call  controller
+//*router.post('/add-request',VerifyUser ,createRequest) // this will call  controller
 
-router.get('/installreqs',VerifyUser ,getContacts)
-
+//*router.get('/installreqs',VerifyUser ,getContacts)
+router.post('/contactmsyt/verify', VerifyUser, createRequest);
+router.get('/contactmsyt/get', VerifyUser, getContacts);
 router.get('/contacts', getAllContacts)
 router.put('/records/:id', setChanges)
 router.post('/approvedSoftware', createChanges)

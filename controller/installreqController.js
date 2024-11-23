@@ -33,28 +33,51 @@ dotenv.config({path:"../config/.env"})*/
 //     return res.status(201).json({ success: true})
 // };
 
- const createRequest = async (req, res) => {
-    try {
-      for (var i = 0; i < req.body.length; i++) {
-        const { Dropdown, DifferentSoft, Purpose, Hostname, Remark, Status } = req.body[i];
-        const newRequest = new InstallReqModel({
-          Dropdown,
-          DifferentSoft,
-          Purpose,
-          Hostname,
-          Remark,
-          Status,
-          postedBy: req.user._id,
-        });
-        await newRequest.save();
-      }
-      return res.status(201).json({ success: true });
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ error: err.message });
-    }
-  };
+//  const createRequest = async (req, res) => {
+//     try {
+//       for (var i = 0; i < req.body.length; i++) {
+//         const { Dropdown, DifferentSoft, Purpose, Hostname, Remark, Status } = req.body[i];
+//         const newRequest = new InstallReqModel({
+//           Dropdown,
+//           DifferentSoft,
+//           Purpose,
+//           Hostname,
+//           Remark,
+//           Status,
+//           postedBy: req.user._id,
+//         });
+//         await newRequest.save();
+//       }
+//       return res.status(201).json({ success: true });
+//     } catch (err) {
+//       console.log(err);
+//       return res.status(500).json({ error: err.message });
+//     }
+//   };
   
+
+const createRequest = async (req, res) => {
+  try {
+    for (var i = 0; i < req.body.length; i++) {
+      const { Dropdown, DifferentSoft, Purpose, Hostname, Remark, Status } = req.body[i];
+      const newRequest = new InstallReqModel({
+        Dropdown,
+        DifferentSoft,
+        Purpose,
+        Hostname,
+        Remark,
+        Status,
+        postedBy: req.user._id, // Use the authenticated user's ID
+      });
+      await newRequest.save();
+    }
+    return res.status(201).json({ success: true });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 
 const getContacts = async(req,res)=>{
 
