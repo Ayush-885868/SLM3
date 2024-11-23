@@ -14,22 +14,40 @@ function StatusForUser() {
     const navigate = useNavigate();
 
 
+    // useEffect(() => {
+    //     axios.get(`${window.location.origin}/contactmsyt/installreqs`, {
+    //         headers: {
+    //             Authorization: `Bearer ${localStorage.getItem('token')}`
+    //         }
+    //     })
+    //     .then((res) => {
+    //         if (res.data.success) {
+    //             const approvedValues = res.data.contacts.filter(contact => contact.Status === 'approved').map(contact => contact.Dropdown);
+    //             setApprovedDropdownValues(approvedValues);
+    //         }
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     });
+    // }, []);
+
     useEffect(() => {
         axios.get(`${window.location.origin}/contactmsyt/installreqs`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
         })
         .then((res) => {
-            if (res.data.success) {
-                const approvedValues = res.data.contacts.filter(contact => contact.Status === 'approved').map(contact => contact.Dropdown);
-                setApprovedDropdownValues(approvedValues);
-            }
+          if (res.data.success) {
+            const approvedValues = res.data.contacts.filter(contact => contact.Status === 'approved').map(contact => contact.Dropdown);
+            setApprovedDropdownValues(approvedValues);
+          }
         })
         .catch((err) => {
-            console.log(err);
+          console.log(err);
         });
-    }, []);
+      }, []);
+      
 
 
     return (

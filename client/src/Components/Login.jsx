@@ -35,45 +35,76 @@ const Login = () => {
 
 
 
-    const handleSubmit = (e) => {
-    e.preventDefault();
-    const errs = Validation(values)
-    setErrors(errs);
-    if (errs.email === "" && errs.password === "") {
-        axios.post(`${window.location.origin}/contactmsyt/Login`, values)
-            .then(res => {
-                if (res.data.success) {
-                    toast.success("Login Successfully", {
-                        position: "top-left",
-                        autoClose: 2000
-                    })
-                    /*localStorage.setItem("token", res.data.token)
-                    localStorage.setItem("name",res.data.user.name)
-                    localStorage.setItem("designation",res.data.user.designation)
-                    localStorage.setItem("email",res.data.user.email)
-                    setUser(res.data.user)*/
-                    localStorage.setItem("token", res.data.token)
-                    setUser(res.data.user)
-                    navigate('/ButtonInterface')
-                    //  navigate('/ButtonInterface', { replace: true });
-                    // window.history.pushState(null, '', '/ButtonInterface');
+    // const handleSubmit = (e) => {
+    // e.preventDefault();
+    // const errs = Validation(values)
+    // setErrors(errs);
+    // if (errs.email === "" && errs.password === "") {
+    //     axios.post(`${window.location.origin}/contactmsyt/Login`, values)
+    //         .then(res => {
+    //             if (res.data.success) {
+    //                 toast.success("Login Successfully", {
+    //                     position: "top-left",
+    //                     autoClose: 2000
+    //                 })
+    //                 /*localStorage.setItem("token", res.data.token)
+    //                 localStorage.setItem("name",res.data.user.name)
+    //                 localStorage.setItem("designation",res.data.user.designation)
+    //                 localStorage.setItem("email",res.data.user.email)
+    //                 setUser(res.data.user)*/
+    //                 localStorage.setItem("token", res.data.token)
+    //                 setUser(res.data.user)
+    //                 navigate('/ButtonInterface')
+    //                 //  navigate('/ButtonInterface', { replace: true });
+    //                 // window.history.pushState(null, '', '/ButtonInterface');
 
-                }
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //             if (err.response.data.errors) {
+    //                 setServerErrors(err.response.data.errors)
+
+    //             }
+    //             else {
+    //                 console.log(err)
+    //             }
+
+    //         })
+    // }
+
+    // };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+      
+        const errs = Validation(values);
+        setErrors(errs);
+      
+        if (errs.email === "" && errs.password === "") {
+          axios.post(`${window.location.origin}/contactmsyt/Login`, values)
+            .then(res => {
+              if (res.data.success) {
+                toast.success("Login Successfully", {
+                  position: "top-left",
+                  autoClose: 2000
+                });
+      
+                localStorage.setItem("token", res.data.token);
+                setUser(res.data.user);
+                navigate('/ButtonInterface', { replace: true });
+              }
             })
             .catch(err => {
-                console.log(err)
-                if (err.response.data.errors) {
-                    setServerErrors(err.response.data.errors)
-
-                }
-                else {
-                    console.log(err)
-                }
-
-            })
-    }
-
-    };
+              console.log(err);
+              if (err.response.data.errors) {
+                setServerErrors(err.response.data.errors);
+              } else {
+                console.log(err);
+              }
+            });
+        }
+      };
+      
 
     // const handleSubmit = async (e) => {
     //     e.preventDefault();

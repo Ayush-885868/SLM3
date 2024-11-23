@@ -10,7 +10,7 @@ import DataTable from 'react-data-table-component'
 import { FaPenToSquare } from 'react-icons/fa6'
 
 const customStyles = {
-    rows: {  
+    rows: {
         styled: {
             backgroundColor: (row) => {
                 if (row.Status === 'approved') {
@@ -51,16 +51,16 @@ function Admin() {
 
 
     const columns = [
-       /* {
-            name: 'ID',
-            selector: 'id',
-            sortable: true,
-        },*/
-       /* {
-            name: 'ID',
-            selector: (row)=>row.id,
-            sortable: true,
-        },*/
+        /* {
+             name: 'ID',
+             selector: 'id',
+             sortable: true,
+         },*/
+        /* {
+             name: 'ID',
+             selector: (row)=>row.id,
+             sortable: true,
+         },*/
 
         {
             name: "Software_Name",
@@ -115,42 +115,80 @@ function Admin() {
 
     const handleStatusChange = async (e, row) => {
         try {
-          // Check if the status has already been changed
-          if (previousStatus[row._id] === e.target.value) {
-            // If the status is the same as the previous one, do not allow the update
-            return;
-          }
-      
-          const updatedRow = { ...row, Status: e.target.value };
-          await axios.put(`${window.location.origin}/contactmsyt/records/${row._id}`, updatedRow, {
-            headers: {
-              Authorization: `Berear ${localStorage.getItem('token')}`,
-            },
-          })
-            .then((res) => {
-              if (res.data.success) {
-                // Update the contacts state and the previousStatus state
-                setContacts((prevContacts) => prevContacts.map((contact) => {
-                  if (contact._id === row._id) {
-                    return { ...contact, Status: e.target.value };
-                  }
-                  return contact;
-                }));
-                setPreviousStatus((prev) => ({
-                  ...prev,
-                  [row._id]: e.target.value,
-                }));
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+            // Check if the status has already been changed
+            if (previousStatus[row._id] === e.target.value) {
+                // If the status is the same as the previous one, do not allow the update
+                return;
+            }
+
+            const updatedRow = { ...row, Status: e.target.value };
+            //   await axios.put(`${window.location.origin}/contactmsyt/records/${row._id}`, updatedRow, {
+            //     headers: {
+            //       Authorization: `Berear ${localStorage.getItem('token')}`,
+            //     },
+            //   })
+            //     .then((res) => {
+            //       if (res.data.success) {
+            //         // Update the contacts state and the previousStatus state
+            //         setContacts((prevContacts) => prevContacts.map((contact) => {
+            //           if (contact._id === row._id) {
+            //             return { ...contact, Status: e.target.value };
+            //           }
+            //           return contact;
+            //         }));
+            //         setPreviousStatus((prev) => ({
+            //           ...prev,
+            //           [row._id]: e.target.value,
+            //         }));
+            //       }
+            //     })
+            //     .catch((err) => {
+            //       console.log(err);
+            //     });
+            try {
+                const response = await axios.put(`${window.location.origin}/contactmsyt/records/${row._id}`, updatedRow, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+
+                if (response.data.success) {
+                    // Update the contacts state and the previousStatus state
+                    setContacts((prevContacts) =>
+                        prevContacts.map((contact) => {
+                            if (contact._id === row._id) {
+                                return { ...contact, Status: e.target.value };
+                            }
+                            return contact;
+                        })
+                    );
+                    setPreviousStatus((prev) => ({
+                        ...prev,
+                        [row._id]: e.target.value,
+                    }));
+                }
+            } catch (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.error('Request failed with status code:', error.response.status);
+                    console.error('Response data:', error.response.data);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.error('No response received:', error.request);
+                } else {
+                    // Something else happened while setting up the request
+                    console.error('Error:', error.message);
+                }
+            }
+
+
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
-      
-    
+    };
+
+
 
 
     // const handleStatusChange = async (e, row) => {
@@ -184,7 +222,7 @@ function Admin() {
     // };
 
 
-    
+
 
     // useEffect(() => {
     //     // setLoading(true)
@@ -198,28 +236,63 @@ function Admin() {
 
     // }, [contacts]);
 
+    // useEffect(() => {
+    //     // setLoading(true)
+    //     fetch(`${window.location.origin}/contactmsyt/contacts`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             setContacts(data);
+    //             // Initialize the previousStatus state
+    //             const initialPreviousStatus = {};
+    //             data.forEach(contact => {
+    //                 initialPreviousStatus[contact._id] = contact.Status;
+    //             });
+    //             setPreviousStatus(initialPreviousStatus);
+    //         })
+    //         .catch(error => console.error('Error fetching records: ', error));
+    // }, [contacts]);
+
     useEffect(() => {
-        // setLoading(true)
-        fetch(`${window.location.origin}/contactmsyt/contacts`)
-          .then(response => response.json())
-          .then(data => {
-            setContacts(data);
-            // Initialize the previousStatus state
-            const initialPreviousStatus = {};
-            data.forEach(contact => {
-              initialPreviousStatus[contact._id] = contact.Status;
-            });
-            setPreviousStatus(initialPreviousStatus);
-          })
-          .catch(error => console.error('Error fetching records: ', error));
-      }, [contacts]);
-      
+        const fetchContacts = async () => {
+            try {
+                const response = await axios.get(`${window.location.origin}/contactmsyt/contacts`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+
+                setContacts(response.data);
+
+                // Initialize the previousStatus state
+                const initialPreviousStatus = {};
+                response.data.forEach((contact) => {
+                    initialPreviousStatus[contact._id] = contact.Status;
+                });
+                setPreviousStatus(initialPreviousStatus);
+            } catch (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.error('Request failed with status code:', error.response.status);
+                    console.error('Response data:', error.response.data);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.error('No response received:', error.request);
+                } else {
+                    // Something else happened while setting up the request
+                    console.error('Error:', error.message);
+                }
+            }
+        };
+
+        fetchContacts();
+    }, []);
 
 
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
 
-    
+
 
     return (
 
@@ -239,7 +312,7 @@ function Admin() {
 
 
                 <div className='col-1 box bg-light contact-list ' >
-               {/* <input
+                    {/* <input
                     type="text"
                     placeholder="Search by any field"
                     onChange={(e) => setFilterText(e.target.value)}

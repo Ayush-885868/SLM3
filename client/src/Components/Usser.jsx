@@ -42,35 +42,70 @@ function Usser() {
     }
 
 
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     axios.post(`${window.location.origin}/contactmsyt/add-request`, AddedData, {
+    //         headers: {
+    //             Authorization: `Berear ${localStorage.getItem('token')}`
+    //         }
+    //     })
+    //         .then((res) => {
+    //             if (res.data.success) {
+    //                 toast.success('Requested Added Successfully.', {
+    //                     position: "top-right",
+    //                     autoClose: 2000,
+    //                 });
+
+    //                 setAddedData({ Dropdown: '', DifferentSoft: '', Purpose: '', Hostname: '', Remark: '' })
+    //             }
+    //             navigate('/Usser');
+    //         })
+
+    //         .catch((err) => {
+    //             console.log(err);
+
+    //         });
+
+
+    //     navigate('/Usser');
+
+    // };
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
+      
         axios.post(`${window.location.origin}/contactmsyt/add-request`, AddedData, {
-            headers: {
-                Authorization: `Berear ${localStorage.getItem('token')}`
-            }
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
         })
-            .then((res) => {
-                if (res.data.success) {
-                    toast.success('Requested Added Successfully.', {
-                        position: "top-right",
-                        autoClose: 2000,
-                    });
-
-                    setAddedData({ Dropdown: '', DifferentSoft: '', Purpose: '', Hostname: '', Remark: '' })
-                }
-                navigate('/Usser');
-            })
-
-            .catch((err) => {
-                console.log(err);
-
+        .then((res) => {
+          if (res.data.success) {
+            toast.success('Request Added Successfully.', {
+              position: "top-right",
+              autoClose: 2000
             });
-
-
-        navigate('/Usser');
-
-    };
-
+            setAddedData({ Dropdown: '', DifferentSoft: '', Purpose: '', Hostname: '', Remark: '' });
+            navigate('/Usser');
+          } else {
+            // Handle the case when the response is not successful
+            console.error('Error:', res.data.message);
+            toast.error('Failed to add request. Please try again.', {
+              position: "top-right",
+              autoClose: 2000
+            });
+          }
+        })
+        .catch((err) => {
+          console.error('Error:', err);
+          toast.error('An error occurred. Please try again later.', {
+            position: "top-right",
+            autoClose: 2000
+          });
+        });
+      };
+      
 
     const handleDelete = (index) => {
         const newArray = [...AddedData];

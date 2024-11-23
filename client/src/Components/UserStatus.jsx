@@ -65,26 +65,24 @@ function UserStatus() {
         },
         ]
 
+        // 
+        
         useEffect(() => {
             axios.get(`${window.location.origin}/contactmsyt/installreqs`, {
-                headers: {                                                      
-                    Authorization: `Berear ${localStorage.getItem('token')}`       
-                }
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+              }
             })
-                .then((res) => {
-                    if (res.data.success) {
-    
-                        setContacts(res.data.contacts)
-    
-                    }
-                })
-    
-                .catch((err) => {
-                    console.log(err);
-    
-                });
-    
-        }, [])
+            .then((res) => {
+              if (res.data.success) {
+                setContacts(res.data.contacts)
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          }, [])
+          
 
     /*useEffect(() => {
 

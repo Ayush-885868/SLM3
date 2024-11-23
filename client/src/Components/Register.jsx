@@ -38,40 +38,82 @@ const Register = () => {
 
 
 
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const errs = Validation(values)
+    //     setErrors(errs);
+    //     if (errs.name === "" && errs.designation === "" && errs.email === "" && errs.password === "") {
+    //         axios.post(`${window.location.origin}/contactmsyt/Register`, values)
+    //             .then(res => {
+    //                 if(res.data.success){
+    //                 toast.success(`${values.name},Account Created Successfully.`, {
+    //                     position: "top-left",
+    //                     //positionClass:"toast-top-full-width",
+    //                     style:{
+    //                         width:'100%',
+    //                        // color:'red'
+    //                     },
+    //                     autoClose: 2000
+
+
+    //                 })
+    //                 navigate('/')
+    //             }
+    //             })
+    //             .catch(err => {
+    //                 if(err.response.data.errors){
+    //                     setServerErrors(err.response.data.errors)
+    
+    //                 }
+    //                 else{
+    //                     console.log(err)
+    //                 }
+    //                // console.log(err);
+
+    //             })
+    //     }
+    //     /* axios.post('http://localhost:3000/auth/Registration', { name, designation, email, password,})
+    //          .then(response => {
+    //              if (response.data.status) {
+    //                  navigate('/Login')
+    //              }
+    //          })
+    //          .catch(err => {
+    //              console.log(err)
+    //          })*/
+
+
+    // };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        const errs = Validation(values)
+      
+        const errs = Validation(values);
         setErrors(errs);
+      
         if (errs.name === "" && errs.designation === "" && errs.email === "" && errs.password === "") {
-            axios.post(`${window.location.origin}/contactmsyt/Register`, values)
-                .then(res => {
-                    if(res.data.success){
-                    toast.success(`${values.name},Account Created Successfully.`, {
-                        position: "top-left",
-                        //positionClass:"toast-top-full-width",
-                        style:{
-                            width:'100%',
-                           // color:'red'
-                        },
-                        autoClose: 2000
-
-
-                    })
-                    navigate('/')
-                }
-                })
-                .catch(err => {
-                    if(err.response.data.errors){
-                        setServerErrors(err.response.data.errors)
-    
-                    }
-                    else{
-                        console.log(err)
-                    }
-                   // console.log(err);
-
-                })
+          axios.post(`${window.location.origin}/contactmsyt/Register`, values)
+            .then(res => {
+              if (res.data.success) {
+                toast.success(`${values.name}, Account Created Successfully.`, {
+                  position: "top-left",
+                  style: {
+                    width: '100%',
+                  },
+                  autoClose: 2000
+                });
+                navigate('/');
+              }
+            })
+            .catch(err => {
+              if (err.response.data.errors) {
+                setServerErrors(err.response.data.errors);
+              } else {
+                console.log(err);
+              }
+            });
         }
+      
         /* axios.post('http://localhost:3000/auth/Registration', { name, designation, email, password,})
              .then(response => {
                  if (response.data.status) {
@@ -81,9 +123,8 @@ const Register = () => {
              .catch(err => {
                  console.log(err)
              })*/
-
-
-    };
+      };
+      
 
 
     return (
