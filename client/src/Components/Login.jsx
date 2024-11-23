@@ -74,37 +74,82 @@ const Login = () => {
     // }
 
     // };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+      
+    //     const errs = Validation(values);
+    //     setErrors(errs);
+      
+    //     if (errs.email === "" && errs.password === "") {
+    //       axios.post(`${window.location.origin}/contactmsyt/Login`, values)
+    //         .then(res => {
+    //           if (res.data.success) {
+    //             toast.success("Login Successfully", {
+    //               position: "top-left",
+    //               autoClose: 2000
+    //             });
+      
+    //             localStorage.setItem("token", res.data.token);
+    //             setUser(res.data.user);
+    //             navigate('/ButtonInterface', { replace: true });
+    //           }
+    //         })
+    //         .catch(err => {
+    //           console.log(err);
+    //           if (err.response.data.errors) {
+    //             setServerErrors(err.response.data.errors);
+    //           } else {
+    //             console.log(err);
+    //           }
+    //         });
+    //     }
+    //   };
+      
     const handleSubmit = (e) => {
-        e.preventDefault();
-      
-        const errs = Validation(values);
-        setErrors(errs);
-      
-        if (errs.email === "" && errs.password === "") {
-          axios.post(`${window.location.origin}/contactmsyt/Login`, values)
-            .then(res => {
-              if (res.data.success) {
-                toast.success("Login Successfully", {
-                  position: "top-left",
-                  autoClose: 2000
-                });
-      
-                localStorage.setItem("token", res.data.token);
-                setUser(res.data.user);
-                navigate('/ButtonInterface', { replace: true });
-              }
-            })
-            .catch(err => {
-              console.log(err);
-              if (err.response.data.errors) {
-                setServerErrors(err.response.data.errors);
-              } else {
-                console.log(err);
-              }
+      e.preventDefault();
+    
+      const errs = Validation(values);
+      setErrors(errs);
+    
+      if (errs.email === "" && errs.password === "") {
+        axios.post(`${window.location.origin}/contactmsyt/Login`, values, {
+          timeout: 10000 // set the timeout to 10 seconds
+        })
+        .then(res => {
+          if (res.data.success) {
+            toast.success("Login Successfully", {
+              position: "top-left",
+              autoClose: 2000
             });
-        }
-      };
-      
+    
+            localStorage.setItem("token", res.data.token);
+            setUser(res.data.user);
+            navigate('/ButtonInterface', { replace: true });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          if (err.response && err.response.data.errors) {
+            setServerErrors(err.response.data.errors);
+          } else {
+            console.log(err);
+            // Handle the timeout error
+            if (err.code === 'ECONNABORTED') {
+              toast.error('The request timed out. Please try again later.', {
+                position: "top-left",
+                autoClose: 2000
+              });
+            } else {
+              toast.error('An error occurred. Please try again later.', {
+                position: "top-left",
+                autoClose: 2000
+              });
+            }
+          }
+        });
+      }
+    };
+    
 
     // const handleSubmit = async (e) => {
     //     e.preventDefault();
