@@ -48,7 +48,7 @@ router.get('/verify', VerifyUser, Auth)
 
 //*router.get('/installreqs',VerifyUser ,getContacts)
 router.post('/contactmsyt/verify', VerifyUser, createRequest);
-router.get('/contactmsyt/get', VerifyUser, getContacts);
+router.get('/contactmsyt/installreqs', VerifyUser, getContacts);
 router.get('/contacts', getAllContacts)
 router.put('/records/:id', setChanges)
 router.post('/approvedSoftware', createChanges)
