@@ -24,7 +24,7 @@ router.post('/Register',[
 
 
 
-router.post('/Login',[  // this will call login controller
+router.post('contactmsyt/Login',[  // this will call login controller
     body('email').trim().notEmpty().withMessage("Email should not be empty")
         .isEmail().withMessage("Invalid Email!!!"),
     body('password').trim().notEmpty().withMessage("password should not be empty")
