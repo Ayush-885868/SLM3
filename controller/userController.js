@@ -86,8 +86,10 @@ const Register = async (req, res) => {
 
 //};
 const Login = async (req, res) => {
+  console.log("Login request received:", req.body); // Log the request body
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.error("Login validation errors:", errors.array());
     return res.status(400).json({ errors: errors.array() });
   }
   const { email, password } = req.body;
@@ -101,13 +103,15 @@ const Login = async (req, res) => {
 
     const isPasswordOk = await bcrypt.compare(password, userExist.password);
     if (!isPasswordOk) {
+      console.log("Incorrect password for:", email);
       return res.status(400).json({ errors: [{ msg: 'Wrong Password' }] });
     }
     const token = jwt.sign({ _id: userExist._id }, process.env.JWT_SECRET_KEY, { expiresIn: '3d' });
     const user = { ...userExist._doc, password: undefined };
     return res.status(200).json({ success: true, user, token });
   } catch (err) {
-    console.error('Error in Login function:', err);
+    console.error("Critical error during login:", error);
+    //console.error('Error in Login function:', err);
     return res.status(500).json({ error: 'Internal Server Error' +err.message});
   }
 };
