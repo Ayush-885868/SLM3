@@ -3,10 +3,10 @@ const router = express.Router();
 import {Register, Login, Auth} from '../controller/userController.js'
 //import bcrypt from 'bcrypt'
 import { body } from 'express-validator'
-// import { VerifyUser } from '../middleware/VerifyUser.js';
-import { VerifyUser } from './VerifyUser.js';
-// import { createRequest, getContacts, getAllContacts, setChanges, createChanges } from '../controller/installreqController.js';
-import { createRequest, getContacts, getAllContacts, setChanges, createChanges } from './installreqController.js';
+ import { VerifyUser } from '../middleware/VerifyUser.js';
+//import { VerifyUser } from '../middleware/VerifyUser.js';
+ import { createRequest, getContacts, getAllContacts, setChanges, createChanges } from '../controller/installreqController.js';
+//import { createRequest, getContacts, getAllContacts, setChanges, createChanges } from './installreqController.js';
 //import {User} from '../models/User.js'
 //import {softReq} from '../model/softReq.js';
 //import jwt from 'jsonwebtoken'
