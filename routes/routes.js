@@ -13,7 +13,7 @@ import { createRequest, getContacts, getAllContacts, setChanges, createChanges }
 
 
 //user routes
-router.post('contactmsyt/Register',[
+router.post('/Register',[
     body('name').trim().notEmpty().withMessage("Name should not be empty"),
     body('designation').trim().notEmpty().withMessage("Designation should not be empty"),
     body('email').trim().notEmpty().withMessage("Email should not be empty")
@@ -24,7 +24,7 @@ router.post('contactmsyt/Register',[
 
 
 
-router.post('contactmsyt/Login',[  // this will call login controller
+router.post('/Login',[  // this will call login controller
     body('email').trim().notEmpty().withMessage("Email should not be empty")
         .isEmail().withMessage("Invalid Email!!!"),
     body('password').trim().notEmpty().withMessage("password should not be empty")
@@ -33,7 +33,7 @@ router.post('contactmsyt/Login',[  // this will call login controller
 
 
 
-router.get('contactmsyt/verify', VerifyUser, Auth)
+router.get('/verify', VerifyUser, Auth)
 
 
 
@@ -42,14 +42,14 @@ router.get('contactmsyt/verify', VerifyUser, Auth)
 
 // software install request routes
 
-router.post('contactmsyt/add-request',VerifyUser ,createRequest) // this will call  controller
+router.post('/add-request',VerifyUser ,createRequest) // this will call  controller
 
-router.get('contactmsyt/installreqs',VerifyUser ,getContacts)
+router.get('/installreqs',VerifyUser ,getContacts)
 // router.post('/contactmsyt/verify', VerifyUser, createRequest);
 // router.get('/contactmsyt/get', VerifyUser, getContacts);
-router.get('contactmsyt/contacts', getAllContacts)
-router.put('contactmsyt/records/:id', setChanges)
-router.post('contactmsyt/approvedSoftware', createChanges)
+router.get('/contacts', getAllContacts)
+router.put('/records/:id', setChanges)
+router.post('/approvedSoftware', createChanges)
 
 
 export {router as Router}

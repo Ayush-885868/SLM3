@@ -4,10 +4,12 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { Router } from "./routes/routes.js";
+import {Connection} from "./config/db.js";
 
 import "./config/db.js";
 //import mongoose from "mongoose";
-import { Router } from "./routes/routes.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,9 +44,24 @@ app.get("/*", (req, res) => {
 //   console.error("MongoDB connection error:", err);
 // });
 
-app.listen(process.env.PORT, () => {
-  console.log("server is running");
-});
+// app.listen(process.env.PORT, () => {
+//   console.log("server is running");
+// });
+
+
+(async () => {
+  try {
+    await Connection();
+    console.log("Database connected successfully!");
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to connect to the database:", error);
+    // Handle the database connection error appropriately (e.g., exit the process)
+    process.exit(1); // Exit with a non-zero code to indicate failure
+  }
+})();
 
 
 

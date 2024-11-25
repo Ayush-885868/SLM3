@@ -96,6 +96,9 @@ const Login = async (req, res) => {
     if (!userExist) {
       return res.status(400).json({ errors: [{ msg: 'User Not registered' }] });
     }
+
+
+
     const isPasswordOk = await bcrypt.compare(password, userExist.password);
     if (!isPasswordOk) {
       return res.status(400).json({ errors: [{ msg: 'Wrong Password' }] });
@@ -105,7 +108,7 @@ const Login = async (req, res) => {
     return res.status(200).json({ success: true, user, token });
   } catch (err) {
     console.error('Error in Login function:', err);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'Internal Server Error' +err.message});
   }
 };
 
